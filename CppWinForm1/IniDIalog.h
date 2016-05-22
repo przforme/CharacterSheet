@@ -20,6 +20,19 @@ namespace CppWinForm1 {
 			InitializeComponent();
 			DexMod->Text = text;
 		}
+	public:
+		property String ^Init {
+			String^ get() {
+				int init, dex, misc;
+				Int32::TryParse(DexMod->Text, dex);
+				Int32::TryParse(MiscMod->Text, misc);
+				init = dex + misc;
+				return init.ToString();
+			}
+			Void set(String ^Dex) {
+				DexMod->Text = Dex;
+			}
+		}
 
 	protected:
 		/// <summary>

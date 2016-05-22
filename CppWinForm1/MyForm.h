@@ -170,7 +170,8 @@ private: System::Windows::Forms::Button^  ACButton;
 	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel9;
 	private: System::Windows::Forms::Label^  label3;
 	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel6;
-	private: System::Windows::Forms::Button^  button2;
+private: System::Windows::Forms::Button^  UpdateInit;
+
 private: System::Windows::Forms::TextBox^  textBox1;
 private: System::Windows::Forms::TableLayoutPanel^  TempHPTable;
 private: System::Windows::Forms::Label^  TempHPLabel;
@@ -330,7 +331,7 @@ private: System::Windows::Forms::TextBox^  Class3Name;
 			this->ACButton = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel8 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->UpdateInit = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel9 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
@@ -1808,7 +1809,7 @@ private: System::Windows::Forms::TextBox^  Class3Name;
 			this->tableLayoutPanel8->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				100)));
 			this->tableLayoutPanel8->Controls->Add(this->label2, 0, 1);
-			this->tableLayoutPanel8->Controls->Add(this->button2, 0, 0);
+			this->tableLayoutPanel8->Controls->Add(this->UpdateInit, 0, 0);
 			this->tableLayoutPanel8->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel8->Location = System::Drawing::Point(93, 4);
 			this->tableLayoutPanel8->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
@@ -1830,19 +1831,19 @@ private: System::Windows::Forms::TextBox^  Class3Name;
 			this->label2->Text = L"Initiative";
 			this->label2->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
-			// button2
+			// UpdateInit
 			// 
-			this->button2->BackColor = System::Drawing::Color::FloralWhite;
-			this->button2->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->button2->Font = (gcnew System::Drawing::Font(L"Book Antiqua", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->UpdateInit->BackColor = System::Drawing::Color::FloralWhite;
+			this->UpdateInit->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->UpdateInit->Font = (gcnew System::Drawing::Font(L"Book Antiqua", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->button2->Location = System::Drawing::Point(3, 3);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(78, 62);
-			this->button2->TabIndex = 0;
-			this->button2->Text = L"0";
-			this->button2->UseVisualStyleBackColor = false;
-			this->button2->Click += gcnew System::EventHandler(this, &MyForm::UpdateButton_Click);
+			this->UpdateInit->Location = System::Drawing::Point(3, 3);
+			this->UpdateInit->Name = L"UpdateInit";
+			this->UpdateInit->Size = System::Drawing::Size(78, 62);
+			this->UpdateInit->TabIndex = 0;
+			this->UpdateInit->Text = L"0";
+			this->UpdateInit->UseVisualStyleBackColor = false;
+			this->UpdateInit->Click += gcnew System::EventHandler(this, &MyForm::UpdateButton_Click);
 			// 
 			// tableLayoutPanel9
 			// 
@@ -3012,24 +3013,36 @@ private: System::Windows::Forms::TextBox^  Class3Name;
 			if (Int32::Parse(CurHP->Text) > Int32::Parse(HPMax->Text)) CurHP->Text = HPMax->Text;
 		}
 		private: System::Void LoseButton_Click(System::Object^  sender, System::EventArgs^  e) {
-		CurHP->Text = (Int32::Parse(CurHP->Text) - Int32::Parse(LoseHP->Text)).ToString();
-		if (Int32::Parse(CurHP->Text) < 0) CurHP->Text = L"0";
-	}
+			int HPtemp, HPLose, HPCur;
+			Int32::TryParse(TempHP->Text, HPtemp);
+			Int32::TryParse(LoseHP->Text, HPLose);
+			Int32::TryParse(CurHP->Text, HPCur);
+			if (HPtemp > HPLose) {
+				TempHP->Text = (HPtemp - HPLose).ToString();
+			}
+			else {
+				CurHP->Text = ((HPCur + HPtemp) - HPLose).ToString();
+				TempHP->Text = L"0";
+				if (Int32::Parse(CurHP->Text) < 0) CurHP->Text = L"0";
+			}
+		}
 				 //
 				 //	UPDATE AC
 				 //
 		private: System::Void ACButton_Click(System::Object^  sender, System::EventArgs^  e) {
-			int AC;
-			ACDialog ^AClassWin = gcnew ACDialog(DexMod->Text);
-			AClassWin->Parent = this;
+			ACDialog ^AClassWin = gcnew ACDialog();
+			AClassWin->AC = DexMod->Text;
 			AClassWin->ShowDialog(this);
+			ACButton->Text = AClassWin->AC;
 		}
 				 //
 				 //	UPDATE INITIATIVE
 				 //
 		private: System::Void UpdateButton_Click(System::Object^  sender, System::EventArgs^  e) {
 			IniDialog ^IniWin = gcnew IniDialog(DexMod->Text);
+			IniWin->Init = DexMod->Text;
 			IniWin->ShowDialog(this);
+			UpdateInit->Text = IniWin->Init;
 		}
 };
 }

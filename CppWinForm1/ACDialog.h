@@ -15,11 +15,27 @@ namespace CppWinForm1 {
 	public ref class ACDialog : public System::Windows::Forms::Form
 	{
 	public:
-		ACDialog(String ^Dex)
+		ACDialog()
 		{
 			InitializeComponent();
+		}
+	public: property String^ AC
+	{
+		String^ get()
+		{
+			int AC, base, dex, mag, misc;
+			Int32::TryParse(BaseModVal->Text, base);
+			Int32::TryParse(DexModVal->Text, dex);
+			Int32::TryParse(MagModVal->Text, mag);
+			Int32::TryParse(MiscModVal->Text, misc);
+			AC = (base + dex + mag + misc);
+			return AC.ToString();
+		}
+		Void set(String ^Dex)
+		{
 			DexModVal->Text = Dex;
 		}
+	}
 
 	protected:
 		/// <summary>
@@ -216,15 +232,5 @@ namespace CppWinForm1 {
 	private: System::Void CalcAC_Click(System::Object^  sender, System::EventArgs^  e) {
 		this->Close();
 	}
-	public:
-		String ^ACVal() {
-			int AC, base, dex, mag, misc;
-			Int32::TryParse(BaseModVal->Text, base);
-			Int32::TryParse(DexModVal->Text, dex);
-			Int32::TryParse(MagModVal->Text, mag);
-			Int32::TryParse(MiscModVal->Text, misc);
-			AC = (base + dex + mag + misc);
-			return AC.ToString();
-		}
-};
+	};
 }
