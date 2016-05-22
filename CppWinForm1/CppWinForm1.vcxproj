@@ -136,14 +136,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ACCalcDial.cpp" />
+    <ClCompile Include="ACDialog.cpp" />
     <ClCompile Include="MyForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IniDIalog.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="ACDialog.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="IniDIalog.resx">
+      <DependentUpon>IniDIalog.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ACDialog.resx">
+      <DependentUpon>ACDialog.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm.en.resx">
       <DependentUpon>MyForm.h</DependentUpon>
     </EmbeddedResource>
